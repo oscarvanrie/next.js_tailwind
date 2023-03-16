@@ -1,9 +1,10 @@
 import { Fragment, useState } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
+import { Dialog, Popover, Tab, Transition, Menu } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import Products from '../pages/products';
+import Dropdown from './Dropdown';
 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
@@ -214,6 +215,7 @@ export default function Navigation({clickSearch, clickCart}) {
 
               <p className="flex-1 text-center text-sm font-medium text-white lg:flex-none">
                 Get free delivery on orders over $100
+                
               </p>
 
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -300,10 +302,12 @@ export default function Navigation({clickSearch, clickCart}) {
                                                     <a href={item.href} className="hover:text-gray-800">
                                                       {item.name}
                                                     </a>
-                                                  </li>
+                                                 </li>
                                                 ))}
+                                                
+
                                               </ul>
-                                            </div>
+                                            </div>       
                                             <div>
                                               <p id="desktop-categories-heading" className="font-medium text-gray-900">
                                                 Categories
@@ -380,6 +384,8 @@ export default function Navigation({clickSearch, clickCart}) {
                           >{page.name}
                           </Link> 
                         ))} 
+
+                        <Dropdown />
                         
                   
                       </div>

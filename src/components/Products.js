@@ -12,7 +12,6 @@ import fetchProducts from "@/pages/api/fetchProducts";
       const fetchData = async () => {      
         const response = await fetchProducts();
         setProducts(response.data);
-        console.log(products);
         return response.data;
       };
       

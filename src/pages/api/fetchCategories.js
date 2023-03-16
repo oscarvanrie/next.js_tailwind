@@ -1,4 +1,4 @@
-export default async function fetchProducts() {
+export default async function fetchCategories() {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer 28|oB1j8DTMYwvf6dmEQpv94E3GxlLxfF1XEc14f4Q0");
       
@@ -8,9 +8,7 @@ export default async function fetchProducts() {
       redirect: 'follow'
     };
       
-    const response = await fetch("http://192.168.10.208/api/products", requestOptions);
+    const response = await fetch("http://192.168.10.208/api/categories", requestOptions);
     const data = await response.json();
     return data;
 }
-  
-  
