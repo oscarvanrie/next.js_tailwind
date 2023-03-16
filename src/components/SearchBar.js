@@ -27,7 +27,9 @@ function classNames(...classes) {
 
 
 export default function SearchBar({open, setOpen}) {
-
+  function test() {
+    console.log(items[0]);
+  }
 
   const [items, setItems] = useState([]);
 
@@ -103,7 +105,7 @@ export default function SearchBar({open, setOpen}) {
                   <Combobox.Options static className="max-h-96 scroll-py-3 overflow-y-auto p-3">
                     {filteredItems.map((item) => (
                       <Combobox.Option
-                        key={item.id}
+                        key={item.PLU}
                         value={item}
                         className={({ active }) =>
                           classNames('flex cursor-default select-none rounded-xl p-3', active && 'bg-gray-100')
@@ -117,7 +119,7 @@ export default function SearchBar({open, setOpen}) {
                                 
                               )}
                             >
-                              <img src={item.icon} alt=""/>
+                              <img src={item.image} alt=""/>
                             </div>
                             <div className="ml-4 flex-auto">
                               <p
@@ -129,7 +131,7 @@ export default function SearchBar({open, setOpen}) {
                                 {item.name}
                               </p>
                               <p className={classNames('text-sm', active ? 'text-gray-700' : 'text-gray-500')}>
-                                {item.description}
+                                {item.info}
                               </p>
                             </div>
                           </>
@@ -159,3 +161,5 @@ export default function SearchBar({open, setOpen}) {
     
   )
 }
+
+// ?
