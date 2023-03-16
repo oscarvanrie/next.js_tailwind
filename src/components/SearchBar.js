@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Combobox, Dialog, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import {
@@ -15,25 +15,43 @@ import {
   Bars4Icon,
 } from '@heroicons/react/24/outline'
 
+import fetchProducts from '@/pages/api/fetchProducts'
+import axios from 'axios'
 
-const items = [
-  {
-    id: 1,
-    name: 'Text',
-    description: 'Add freeform text with basic formatting options.',
-    url: '#',
-    color: 'bg-indigo-500',
-    icon: PencilSquareIcon,
-  },
-  // More items...
-]
+
+
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export default function SearchBar({open, setOpen}) {
+
+
+  const [items, setItems] = useState([]);
+
+
+  
+  useEffect(() => {
+    const fetchData = async () => {      
+      const response = await fetchProducts();
+      setItems(response.data);
+      
+      return response.data;
+    };
+    
+    fetchData();
+  }, []);
+
+
+
+
+  
   const [query, setQuery] = useState('')
   const [] = useState(true);
+
+
 
 
   const filteredItems =
@@ -96,10 +114,10 @@ export default function SearchBar({open, setOpen}) {
                             <div
                               className={classNames(
                                 'flex h-10 w-10 flex-none items-center justify-center rounded-lg',
-                                item.color
+                                
                               )}
                             >
-                              <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                              <img src={item.icon} alt=""/>
                             </div>
                             <div className="ml-4 flex-auto">
                               <p
@@ -138,5 +156,6 @@ export default function SearchBar({open, setOpen}) {
         </div>
       </Dialog>
     </Transition.Root>
+    
   )
 }

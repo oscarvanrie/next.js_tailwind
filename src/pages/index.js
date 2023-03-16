@@ -8,7 +8,8 @@ import SearchBar from '@/components/SearchBar';
 import ShoppingCart from '@/components/ShoppingCart'
 import Link from 'next/link';
 
-//import ShoppingCart from './ShoppingCart';
+import fetchProducts from './api/fetchProducts'
+
 
 export default function Index() {
 
@@ -24,7 +25,11 @@ export default function Index() {
   function clickCart() {
     setOpenCart(!openCart);
   }
+  
 
+
+    
+    
   return (
 
  
@@ -38,14 +43,13 @@ export default function Index() {
       
       
       <ShoppingCart open = {openCart} setOpen = {setOpenCart}/>
-      
-       
+
 
       
     </div>
 
     
-
+    
 
 
 
