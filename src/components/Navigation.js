@@ -407,7 +407,11 @@ export default function Navigation({clickSearch, clickCart}) {
                   </div>
 
                   {/* Logo (lg-) */}
-                  <Link href="/" className="lg:hidden">
+                  <Link
+                   href="/" 
+                   className="lg:hidden"
+                   key='YourCompany' >
+
                     <span className="sr-only">Your Company</span>
                     <img
                       src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"

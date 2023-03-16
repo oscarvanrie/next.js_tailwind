@@ -27,10 +27,11 @@ function classNames(...classes) {
 
 
 export default function SearchBar({open, setOpen}) {
-  function test() {
-    console.log(items[0]);
-  }
 
+
+  
+  const [query, setQuery] = useState('');
+  const [] = useState(true);
   const [items, setItems] = useState([]);
 
 
@@ -39,19 +40,19 @@ export default function SearchBar({open, setOpen}) {
     const fetchData = async () => {      
       const response = await fetchProducts();
       setItems(response.data);
-      
+      console.log(items);
       return response.data;
     };
     
     fetchData();
-  }, []);
+  }, [query]);
 
 
 
 
-  
-  const [query, setQuery] = useState('')
-  const [] = useState(true);
+
+
+
 
 
 
@@ -60,7 +61,7 @@ export default function SearchBar({open, setOpen}) {
     query === ''
       ? []
       : items.filter((item) => {
-          return item.name.toLowerCase().includes(query.toLowerCase())
+          return item.name.toLowerCase().includes(query.toLowerCase());
         })
 
   return (<Transition.Root show={open} as={Fragment} afterLeave={() => setQuery('')} appear>
@@ -97,7 +98,8 @@ export default function SearchBar({open, setOpen}) {
                   <Combobox.Input
                     className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                     placeholder="Search..."
-                    onChange={(event) => setQuery(event.target.value)}
+                    onChange={(event) => setQuery(event.target.value) }
+                    
                   />
                 </div>
 
