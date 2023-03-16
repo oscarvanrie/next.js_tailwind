@@ -15,7 +15,8 @@ import {
   Bars4Icon,
 } from '@heroicons/react/24/outline'
 
-import fetchProducts from '@/pages/api/fetchProducts'
+import fetchProducts from '@/pages/api/fetchProducts';
+import fetchProductQuery from '@/pages/api/fetchProductQuery';
 import axios from 'axios'
 
 
@@ -33,15 +34,16 @@ export default function SearchBar({open, setOpen}) {
   const [query, setQuery] = useState('');
   const [] = useState(true);
   const [items, setItems] = useState([]);
-
-
+  
   
   useEffect(() => {
-    const fetchData = async () => {      
-      const response = await fetchProducts();
-      setItems(response.data);
-      console.log(items);
-      return response.data;
+    const fetchData = async () => {    
+      if (query != '') {
+        const response = await fetchProductQuery(query);
+        setItems(response.data);
+        return response.data;
+      }  
+
     };
     
     fetchData();
@@ -56,13 +58,15 @@ export default function SearchBar({open, setOpen}) {
 
 
 
-
+/*
   const filteredItems =
     query === ''
       ? []
       : items.filter((item) => {
           return item.name.toLowerCase().includes(query.toLowerCase());
         })
+
+        */
 
   return (<Transition.Root show={open} as={Fragment} afterLeave={() => setQuery('')} appear>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -103,9 +107,9 @@ export default function SearchBar({open, setOpen}) {
                   />
                 </div>
 
-                {filteredItems.length > 0 && (
+                {items.length > 0 && (
                   <Combobox.Options static className="max-h-96 scroll-py-3 overflow-y-auto p-3">
-                    {filteredItems.map((item) => (
+                    {items.map((item) => (
                       <Combobox.Option
                         key={item.PLU}
                         value={item}
@@ -143,7 +147,7 @@ export default function SearchBar({open, setOpen}) {
                   </Combobox.Options>
                 )}
 
-                {query !== '' && filteredItems.length === 0 && (
+                {query !== '' && items.length === 0 && (
                   <div className="py-14 px-6 text-center text-sm sm:px-14">
                     <ExclamationCircleIcon
                       type="outline"
