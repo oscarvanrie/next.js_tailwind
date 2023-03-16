@@ -1,32 +1,49 @@
 import { Fragment, useState } from 'react'
-//import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-//import { Combobox, Dialog, Transition } from '@headlessui/react'
-import { Dialog, Combobox, Transition } from '@headlessui/react'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { Combobox, Dialog, Transition } from '@headlessui/react'
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import {
+  CalendarIcon,
+  CodeBracketIcon,
+  DocumentIcon,
+  ExclamationCircleIcon,
+  LinkIcon,
+  PencilSquareIcon,
+  PhotoIcon,
+  TableCellsIcon,
+  VideoCameraIcon,
+  ViewColumnsIcon,
+  Bars4Icon,
+} from '@heroicons/react/24/outline'
 
-const people = [
-  { id: 1, name: 'Leslie Alexander', url: '#' },
-  // More people...
+
+const items = [
+  {
+    id: 1,
+    name: 'Text',
+    description: 'Add freeform text with basic formatting options.',
+    url: '#',
+    color: 'bg-indigo-500',
+    icon: PencilSquareIcon,
+  },
+  // More items...
 ]
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function SearchBar({open, setOpen}) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('')
   const [] = useState(true);
 
 
-  const filteredPeople =
+  const filteredItems =
     query === ''
       ? []
-      : people.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase())
+      : items.filter((item) => {
+          return item.name.toLowerCase().includes(query.toLowerCase())
         })
 
-  return (
-    <Transition.Root show={open} as={Fragment} afterLeave={() => setQuery('')} appear>
+  return (<Transition.Root show={open} as={Fragment} afterLeave={() => setQuery('')} appear>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
@@ -51,7 +68,7 @@ export default function SearchBar({open, setOpen}) {
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel className="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-              <Combobox onChange={(person) => (window.location = person.url)}>
+              <Combobox onChange={(item) => (window.location = item.url)}>
                 <div className="relative">
                   <MagnifyingGlassIcon
                     className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
@@ -64,24 +81,56 @@ export default function SearchBar({open, setOpen}) {
                   />
                 </div>
 
-                {filteredPeople.length > 0 && (
-                  <Combobox.Options static className="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800">
-                    {filteredPeople.map((person) => (
+                {filteredItems.length > 0 && (
+                  <Combobox.Options static className="max-h-96 scroll-py-3 overflow-y-auto p-3">
+                    {filteredItems.map((item) => (
                       <Combobox.Option
-                        key={person.id}
-                        value={person}
+                        key={item.id}
+                        value={item}
                         className={({ active }) =>
-                          classNames('cursor-default select-none px-4 py-2', active && 'bg-indigo-600 text-white')
+                          classNames('flex cursor-default select-none rounded-xl p-3', active && 'bg-gray-100')
                         }
                       >
-                        {person.name}
+                        {({ active }) => (
+                          <>
+                            <div
+                              className={classNames(
+                                'flex h-10 w-10 flex-none items-center justify-center rounded-lg',
+                                item.color
+                              )}
+                            >
+                              <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                            </div>
+                            <div className="ml-4 flex-auto">
+                              <p
+                                className={classNames(
+                                  'text-sm font-medium',
+                                  active ? 'text-gray-900' : 'text-gray-700'
+                                )}
+                              >
+                                {item.name}
+                              </p>
+                              <p className={classNames('text-sm', active ? 'text-gray-700' : 'text-gray-500')}>
+                                {item.description}
+                              </p>
+                            </div>
+                          </>
+                        )}
                       </Combobox.Option>
                     ))}
                   </Combobox.Options>
                 )}
 
-                {query !== '' && filteredPeople.length === 0 && (
-                  <p className="p-4 text-sm text-gray-500">No people found.</p>
+                {query !== '' && filteredItems.length === 0 && (
+                  <div className="py-14 px-6 text-center text-sm sm:px-14">
+                    <ExclamationCircleIcon
+                      type="outline"
+                      name="exclamation-circle"
+                      className="mx-auto h-6 w-6 text-gray-400"
+                    />
+                    <p className="mt-4 font-semibold text-gray-900">No results found</p>
+                    <p className="mt-2 text-gray-500">No components found for this search term. Please try again.</p>
+                  </div>
                 )}
               </Combobox>
             </Dialog.Panel>
