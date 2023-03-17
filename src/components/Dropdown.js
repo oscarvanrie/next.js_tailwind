@@ -1,8 +1,6 @@
-import { Fragmentn, useState, useEffect } from 'react'
+
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
-import fetchCategories from '@/pages/api/fetchCategories'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -10,27 +8,18 @@ function classNames(...classes) {
 
 
 
-export default function Dropdown() {
-    const [categories, setCategories] = useState([]);
+export default function Dropdown({itemArray, linkPage, header}) {
 
 
 
-    useEffect(() => {
-      const fetchData = async () => {      
-        const response = await fetchCategories();
-        setCategories(response.data);
-        return response.data;
-      };
-      
-      fetchData();
-    }, []);
+
 
 
   return (
     <Menu as="div" className="relative inline-block text-left mx-0" >
 
         <Menu.Button className="m-5 flex items-center focus:outline-none ">
-          <span className='align-middle	'>Categories</span>
+          <span className='align-middle	'>{header}</span>
         </Menu.Button>
 
 
@@ -44,12 +33,12 @@ export default function Dropdown() {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-          {categories.map((category, index) => (
-            <Menu.Item key={category.order_position}>
+          {itemArray.map((item, index) => (
+            <Menu.Item key={item.order_position}>
                 {({ active }) => (
                 <Link
                     href={{
-                        pathname: './categorie',
+                        pathname: linkPage,
                         query: {id: index},
                     }}
                     className={classNames(
@@ -57,7 +46,7 @@ export default function Dropdown() {
                     'block px-4 py-2 text-sm'
                     )}
                 >
-                    {category.description}
+                    {item.description}
                 </Link>
                 )}
             </Menu.Item>

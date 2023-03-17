@@ -1,10 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Popover, Tab, Transition, Menu } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import Products from '../pages/products';
 import Dropdown from './Dropdown';
+import fetchCategories from '@/pages/api/fetchCategories';
 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
@@ -80,7 +81,20 @@ function classNames(...classes) {
 }
 
 export default function Navigation({clickSearch, clickCart}) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const [categories, setCategories] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {      
+      const response = await fetchCategories();
+      setCategories(response.data);
+      console.log(response.data);
+      return response.data;
+    };
+    
+    fetchData();
+  }, []);
 
   return (
 
@@ -385,7 +399,7 @@ export default function Navigation({clickSearch, clickCart}) {
                           </Link> 
                         ))} 
 
-                        <Dropdown />
+                        <Dropdown itemArray={categories} linkPage = {'./categorie'} header={'categories'} />
                         
                   
                       </div>
