@@ -89,7 +89,6 @@ export default function Navigation({clickSearch, clickCart}) {
     const fetchData = async () => {      
       const response = await fetchCategories();
       setCategories(response.data);
-      console.log(response.data);
       return response.data;
     };
     
