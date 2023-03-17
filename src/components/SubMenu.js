@@ -9,10 +9,9 @@ export default function SubMenu({subCategorieArray, categorieName}) {
             </div>
             <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
               {subCategorieArray.map((subCategorie, index) => (
-                <li key={subCategorie.order_position}>
+                <li key={index}>
                   <div className="flex items-center gap-x-6">
                     <div>
-                      <p>{index}</p>
                       <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{subCategorie.description}</h3>
                       <p className="text-sm font-semibold leading-6 text-indigo-600">{subCategorie.slug}</p>
                     </div>
