@@ -19,6 +19,8 @@ export default function Category() {
   const [openCart, setOpenCart] = useState(false);
 
   const [subCategories, setsubCategories] = useState([]);
+  const [selectedName, setSelectedName] = useState('');
+  
   
   
 
@@ -27,7 +29,10 @@ export default function Category() {
       try {
         const response = await fetchSubCategories();
         const subcategories = response.data[categorieID]?.subcategories;
+        setSelectedName(response.data[categorieID]?.description);
         if (subcategories) {
+          
+          setsubCategories('');
           setsubCategories(subcategories);
         } else {
           console.log(`Invalid categorieID: ${categorieID}`);
@@ -48,6 +53,8 @@ export default function Category() {
   }
   function clickCart() {
     setOpenCart(!openCart);
+    console.log(subCategories);
+    
   }
 
 
@@ -67,7 +74,7 @@ export default function Category() {
       
       <ShoppingCart open = {openCart} setOpen = {setOpenCart}/>
 
-      <SubMenu subCategorieArray={subCategories} /> 
+      <SubMenu subCategorieArray={subCategories} categorieName={selectedName} /> 
 
       
        
