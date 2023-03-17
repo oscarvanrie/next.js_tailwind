@@ -10,6 +10,7 @@ export default async function fetchProducts() {
       
     const response = await fetch("http://192.168.10.208/api/products", requestOptions);
     const data = await response.json();
+    console.log(data);
     return data;
 }
   

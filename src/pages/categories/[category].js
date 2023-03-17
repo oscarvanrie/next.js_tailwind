@@ -8,7 +8,7 @@ import Navigation from '@/components/Navigation';
 import SearchBar from '@/components/SearchBar';
 import ShoppingCart from '@/components/ShoppingCart'
 import {useRouter} from 'next/router'
-import fetchSubCategories from './api/fetchSubCategories';
+import fetchSubCategories from '../api/fetchSubCategories';
 import SubMenu from '@/components/subMenu';
 
 export default function Category() {

@@ -6,69 +6,43 @@ import Link from 'next/link';
 import Products from '../pages/products';
 import Dropdown from './Dropdown';
 import fetchCategories from '@/pages/api/fetchCategories';
+import fetchSubCategories from '@/pages/api/fetchSubCategories';
 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
+
+
+
+
 const navigation = {
-  categories: [
+  menu: [
     {
-      name: '',
-      pageURL: './pages/Banner.js',
-      featured: [
+      0: [
         { name: 'Sleep', href: '#' },
         { name: 'Swimwear', href: '#' },
         { name: 'Underwear', href: '#' },
       ],
-      collection: [
+      1: [
         { name: 'Everything', href: '#' },
         { name: 'Core', href: '#' },
         { name: 'New Arrivals', href: '#' },
         { name: 'Sale', href: '#' },
       ],
-      categories: [
+      2: [
         { name: 'Basic Tees', href: '#' },
         { name: 'Artwork Tees', href: '#' },
         { name: 'Bottoms', href: '#' },
         { name: 'Underwear', href: '#' },
         { name: 'Accessories', href: '#' },
       ],
-      brands: [
+      3: [
         { name: 'Full Nelson', href: '#' },
         { name: 'My Way', href: '#' },
         { name: 'Re-Arranged', href: '#' },
         { name: 'Counterfeit', href: '#' },
         { name: 'Significant Other', href: '#' },
       ],
-    },
-    {
-      name: '',
-      pageUrl: './pages/Products.js',
-      featured: [
-        { name: 'Casual', href: '#' },
-        { name: 'Boxers', href: '#' },
-        { name: 'Outdoor', href: '#' },
-      ],
-      collection: [
-        { name: 'Everything', href: '#' },
-        { name: 'Core', href: '#' },
-        { name: 'New Arrivals', href: '#' },
-        { name: 'Sale', href: '#' },
-      ],
-      categories: [
-        { name: 'Artwork Tees', href: '#' },
-        { name: 'Pants', href: '#' },
-        { name: 'Accessories', href: '#' },
-        { name: 'Boxers', href: '#' },
-        { name: 'Basic Tees', href: '#' },
-      ],
-      brands: [
-        { name: 'Significant Other', href: '#' },
-        { name: 'My Way', href: '#' },
-        { name: 'Counterfeit', href: '#' },
-        { name: 'Re-Arranged', href: '#' },
-        { name: 'Full Nelson', href: '#' },
-      ],
-    },
+    }
   ],
   pages: [
     { name: 'Home', href: '/home' },
@@ -95,6 +69,34 @@ export default function Navigation({clickSearch, clickCart}) {
     fetchData();
   }, []);
 
+
+  const [subCategories, setsubCategories] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {      
+      try {
+        const response = await fetchSubCategories();
+        setsubCategories(response.data)
+        if (subcategories) {
+          
+          setsubCategories('');
+          setsubCategories(subcategories);
+          console.log(subcategories);
+        } else {
+          console.log(`Invalid categorieID: ${categorieID}`);
+        }
+        return response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+      
+    fetchData();
+  }, []);
+
+  
+
+console.log(categories);
   return (
 
     <div className="bg-white">
@@ -264,7 +266,7 @@ export default function Navigation({clickSearch, clickCart}) {
                     {/* Mega menus */}
                     <Popover.Group className="ml-8">
                       <div className="flex h-full justify-center space-x-8">
-                        {navigation.categories.map((category, categoryIdx) => (
+                        {navigation.menu.map((category, categoryIdx) => (
                           <Popover key={category.name} className="flex">
                             {({ open }) => (
                               <>
@@ -278,6 +280,7 @@ export default function Navigation({clickSearch, clickCart}) {
                                     )}
                                   >
                                     {category.name}
+                                    Categories
                                   </Popover.Button>
                                 </div>
 
@@ -296,88 +299,33 @@ export default function Navigation({clickSearch, clickCart}) {
 
                                     <div className="relative bg-white">
                                       <div className="mx-auto max-w-7xl px-8">
-                                        <div className="grid grid-cols-2 items-start gap-y-10 gap-x-8 pt-10 pb-12">
-                                          <div className="grid grid-cols-2 gap-y-10 gap-x-8">
+                                        <div className="grid grid-cols-1 items-start gap-y-10 gap-x-8 pt-10 pb-12">
+                                          <div className="grid grid-cols-7 gap-y-10 gap-x-8">
+
+                                          {subCategories.map((sCat, index) => (
                                             <div>
                                               <p
                                                 id={`desktop-featured-heading-${categoryIdx}`}
                                                 className="font-medium text-gray-900"
                                               >
-                                                Featured
+                                                <Link href={"/categories/" + index}> {sCat.description}</Link>
                                               </p>
                                               <ul
                                                 role="list"
                                                 aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
                                                 className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
                                               >
-                                                {category.featured.map((item) => (
-                                                  <li key={item.name} className="flex">
+                                                 {sCat.subcategories.map((item) => (
+                                                  <li key={item.description} className="flex">
                                                     <a href={item.href} className="hover:text-gray-800">
-                                                      {item.name}
-                                                    </a>
-                                                 </li>
-                                                ))}
-                                                
-
-                                              </ul>
-                                            </div>       
-                                            <div>
-                                              <p id="desktop-categories-heading" className="font-medium text-gray-900">
-                                                Categories
-                                              </p>
-                                              <ul
-                                                role="list"
-                                                aria-labelledby="desktop-categories-heading"
-                                                className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                              >
-                                                {category.categories.map((item) => (
-                                                  <li key={item.name} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
-                                                      {item.name}
+                                                      {item.description}
                                                     </a>
                                                   </li>
-                                                ))}
+                                                ))} 
                                               </ul>
                                             </div>
-                                          </div>
-                                          <div className="grid grid-cols-2 gap-y-10 gap-x-8">
-                                            <div>
-                                              <p id="desktop-collection-heading" className="font-medium text-gray-900">
-                                                Collection
-                                              </p>
-                                              <ul
-                                                role="list"
-                                                aria-labelledby="desktop-collection-heading"
-                                                className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                              >
-                                                {category.collection.map((item) => (
-                                                  <li key={item.name} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
-                                                      {item.name}
-                                                    </a>
-                                                  </li>
-                                                ))}
-                                              </ul>
-                                            </div>
-
-                                            <div>
-                                              <p id="desktop-brand-heading" className="font-medium text-gray-900">
-                                                Brands
-                                              </p>
-                                              <ul
-                                                role="list"
-                                                aria-labelledby="desktop-brand-heading"
-                                                className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                              >
-                                                {category.brands.map((item) => (
-                                                  <li key={item.name} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
-                                                      {item.name}
-                                                    </a>
-                                                  </li>
-                                                ))}
-                                              </ul>
-                                            </div>
+                                            ))}
+                                            
                                           </div>
                                         </div>
                                       </div>
@@ -390,17 +338,14 @@ export default function Navigation({clickSearch, clickCart}) {
                         ))}
 
                         {navigation.pages.map((page) => (
-                          <Link
-                            href={page.href}
+                          <a
                             key={page.name}
+                            href={page.href}
                             className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                          >{page.name}
-                          </Link> 
-                        ))} 
-
-                        <Dropdown itemArray={categories} linkPage = {'./categorie'} header={'categories'} />
-                        
-                  
+                          >
+                            {page.name}
+                          </a>
+                        ))}
                       </div>
                     </Popover.Group>
                     
