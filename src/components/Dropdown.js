@@ -1,5 +1,6 @@
 import { Fragmentn, useState, useEffect } from 'react'
 import { Menu, Transition } from '@headlessui/react'
+import Link from 'next/link'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import fetchCategories from '@/pages/api/fetchCategories'
 
@@ -26,9 +27,9 @@ export default function Dropdown() {
 
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block text-left mx-0" >
 
-        <Menu.Button className="m-5 flex items-center focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+        <Menu.Button className="m-5 flex items-center focus:outline-none ">
           <span className='align-middle	'>Categories</span>
         </Menu.Button>
 
@@ -43,18 +44,21 @@ export default function Dropdown() {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <Menu.Item key={category.order_position}>
                 {({ active }) => (
-                <a
-                    href="#"
+                <Link
+                    href={{
+                        pathname: './categorie',
+                        query: {id: index},
+                    }}
                     className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm'
                     )}
                 >
                     {category.description}
-                </a>
+                </Link>
                 )}
             </Menu.Item>
             ))}
