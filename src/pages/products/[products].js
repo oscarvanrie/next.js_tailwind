@@ -6,11 +6,11 @@ import { useState, useEffect } from 'react';
 import Navigation from '@/components/Navigation';
 import SearchBar from '@/components/SearchBar';
 import ShoppingCart from '@/components/ShoppingCart';
-import SubMenu from '@/components/subMenu';
 import { useRouter } from 'next/router';
 import { createTemplateLiteral } from '@vue/compiler-core';
 import Product from '@/components/Product';
 import fetchProducts from '../api/fetchProducts';
+import SideNav from '@/components/SideNav';
 
 export default function Category() {
   
@@ -66,9 +66,12 @@ export default function Category() {
     console.log(products);
     
   }
+  
 
 
   return (
+
+    
 
  
     <div id="root">
@@ -82,9 +85,23 @@ export default function Category() {
       
       <ShoppingCart open = {openCart} setOpen = {setOpenCart}/>
 
-      <p>{categorySlug}</p>
 
-      <Product products={products} />
+
+      <div className='flex'>
+        <div className='w-1/4'>
+
+          <SideNav />
+        </div>
+        <div className='w-3/4'>
+          <Product products={products} />
+        </div>
+        
+
+        
+
+      </div>
+
+      
 
 
 

@@ -12,5 +12,6 @@ export default async function fetchSubCategories() {
       
     const response = await fetch("http://192.168.10.208/api/categories?include=subcategories", requestOptions);
     const data = await response.json();
+    console.log(data.data);
     return data;
 }

@@ -79,7 +79,6 @@ export default function Category() {
 
       <SubMenu subCategorieArray={subCategories} categorieName={selectedName} /> 
 
-       
 
       
     </div>
