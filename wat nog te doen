@@ -1,2 +1,5 @@
-1) url bovenaan met /categorien/3
-2) producten inladen van api die overeenkomen met de subcategories
+1 url bovenaan met /categorien/3
+2 producten inladen van api die overeenkomen met de subcategories
+3 geen producten shcerm
+4) aanvinken
+5) laravel beginpagina maken

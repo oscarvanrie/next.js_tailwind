@@ -54,7 +54,10 @@ export default function SideNav(catSlug) {
           element.push(item);
           console.log(element);
           filteredCategories = element;
-          setSelectedIndex(i);
+          if (i != selectedIndex) {
+            setSelectedIndex(i);
+            console.log(i);
+          }
 
           
         }
@@ -98,8 +101,8 @@ export default function SideNav(catSlug) {
                     >
                         {
                           optionIdx == selectedIndex
-                            ? <input id={`${section.id}-${optionIdx}-mobile`} name={`${section.id}[]`} defaultValue={option.slug} type="checkbox" checked className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
-                            : <input id={`${section.id}-${optionIdx}-mobile`} name={`${section.id}[]`} defaultValue={option.slug} type="checkbox"  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
+                            ? <input name={`${section.id}[]`} defaultValue={option.slug} type="checkbox" checked className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
+                            : <input name={`${section.id}[]`} defaultValue={option.slug} type="checkbox"  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
                         }
                           
 
