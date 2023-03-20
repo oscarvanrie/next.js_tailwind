@@ -12,6 +12,7 @@ import Product from '@/components/Product';
 import fetchProducts from '../api/fetchProducts';
 import SideNav from '@/components/SideNav';
 import { validateConfig } from 'next/dist/server/config-shared';
+import NoProductsFound from '@/components/NoProductsFound';
 
 export default function Category() {
   
@@ -54,10 +55,6 @@ export default function Category() {
 
 
 
-
-
-
-
   function clickSearch() {
     setOpenSearch(!openSearch);
   }
@@ -66,7 +63,6 @@ export default function Category() {
     console.log(products);
     
   }
-  
 
 
   return (
@@ -93,6 +89,7 @@ export default function Category() {
           <SideNav catSlug={categorySlug}/>
         </div>
         <div className='w-3/4'>
+
           <Product products={products} />
         </div>
         
@@ -100,6 +97,9 @@ export default function Category() {
         
 
       </div>
+
+
+      
 
       
 
@@ -111,6 +111,8 @@ export default function Category() {
 
       
     </div>
+
+    
 
     
 

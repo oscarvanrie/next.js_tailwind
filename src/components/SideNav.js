@@ -12,10 +12,11 @@ function classNames(...classes) {
 export default function SideNav(catSlug) {
     catSlug = catSlug.catSlug;
 
-    
+
 
 
     const [subCategories, setsubCategories] = useState([]);
+    const [selectedIndex, setSelectedIndex] = useState();
     var filteredCategories = [];
   
     useEffect(() => {
@@ -45,14 +46,19 @@ export default function SideNav(catSlug) {
 
 
     let element = [];
-
     subCategories.forEach(item => {
+      let i = 0;
       item.subcategories.forEach(subcat => {
+
         if (subcat.slug === catSlug) {
           element.push(item);
           console.log(element);
           filteredCategories = element;
+          setSelectedIndex(i);
+
+          
         }
+        i++;
       });
     });
 
@@ -90,13 +96,12 @@ export default function SideNav(catSlug) {
                     <Link
                     href={"/products/" + option.slug}
                     >
-                    <input
-                      id={`${section.id}-${optionIdx}-mobile`}
-                      name={`${section.id}[]`}
-                      defaultValue={option.slug}
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />      
+                        {
+                          optionIdx == selectedIndex
+                            ? <input id={`${section.id}-${optionIdx}-mobile`} name={`${section.id}[]`} defaultValue={option.slug} type="checkbox" checked className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
+                            : <input id={`${section.id}-${optionIdx}-mobile`} name={`${section.id}[]`} defaultValue={option.slug} type="checkbox"  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
+                        }
+                          
 
 
                     <label
