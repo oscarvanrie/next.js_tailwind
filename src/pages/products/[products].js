@@ -11,6 +11,7 @@ import { createTemplateLiteral } from '@vue/compiler-core';
 import Product from '@/components/Product';
 import fetchProducts from '../api/fetchProducts';
 import SideNav from '@/components/SideNav';
+import { validateConfig } from 'next/dist/server/config-shared';
 
 export default function Category() {
   
@@ -43,7 +44,6 @@ export default function Category() {
         }
       }
       setProducts(arrayData);
-      console.log(arrayData);
       return arrayData;
     };
 
@@ -90,7 +90,7 @@ export default function Category() {
       <div className='flex'>
         <div className='w-1/4'>
 
-          <SideNav />
+          <SideNav catSlug={categorySlug}/>
         </div>
         <div className='w-3/4'>
           <Product products={products} />

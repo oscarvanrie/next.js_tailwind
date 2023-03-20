@@ -1,81 +1,36 @@
-import { Disclosure } from '@headlessui/react'
 import { CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon } from '@heroicons/react/24/outline'
 import { useState, useEffect } from 'react';
 import fetchSubCategories from '@/pages/api/fetchSubCategories';
 import Link from 'next/link';
-const navigation = [
-  { name: 'Dashboard', current: false, href: '#' },
-  {
-    name: 'Team',
-    current: false,
-    children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
-    ],
-  },
-  {
-    name: 'Projects',
-    current: false,
-    children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
-    ],
-  },
-  {
-    name: 'Calendar',
-    current: false,
-    children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
-    ],
-  },
-  {
-    name: 'Documents',
-    current: false,
-    children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
-    ],
-  },
-  {
-    name: 'Reports',
-    current: false,
-    children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
-    ],
-  },
-]
+import { Disclosure } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function SideNav() {
+export default function SideNav(catSlug) {
+    catSlug = catSlug.catSlug;
 
+    
 
 
     const [subCategories, setsubCategories] = useState([]);
+    var filteredCategories = [];
   
     useEffect(() => {
-        const fetchData = async () => {      
+        const fetchData = async () => {    
           try {
             const response = await fetchSubCategories();
             setsubCategories(response.data)
             if (subcategories) {
               
               setsubCategories('');
+
+
               setsubCategories(subcategories);
+
+
             } else {
               console.log(`Invalid categorieID: ${categorieID}`);
             }
@@ -89,15 +44,82 @@ export default function SideNav() {
     }, []);
 
 
+    let element = [];
+
+    subCategories.forEach(item => {
+      item.subcategories.forEach(subcat => {
+        if (subcat.slug === catSlug) {
+          element.push(item);
+          console.log(element);
+          filteredCategories = element;
+        }
+      });
+    });
 
 
     function test() {
         console.log(subCategories);
+        
     }
+
+    test();
 
 
   return (
-    <div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5 pb-4">
+    <form className="mt-4">
+    {filteredCategories.map((section) => (
+      <Disclosure as="div" key={section.name} className="border-t border-gray-200 pt-4 pb-4">
+        {({ open }) => (
+          <fieldset>
+            <legend className="w-full px-2">
+              <Disclosure.Button className="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
+                <span className="text-sm font-medium text-gray-900">{section.description}</span>
+                <span className="ml-6 flex h-7 items-center">
+                  <ChevronDownIcon
+                    className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform')}
+                    aria-hidden="true"
+                  />
+                </span>
+              </Disclosure.Button>
+            </legend>
+            <Disclosure.Panel className="px-4 pt-4 pb-2">
+              <div className="space-y-6">
+                {section.subcategories.map((option, optionIdx) => (
+                  
+                  <div key={option.slug} className="flex items-center">
+                    <Link
+                    href={"/products/" + option.slug}
+                    >
+                    <input
+                      id={`${section.id}-${optionIdx}-mobile`}
+                      name={`${section.id}[]`}
+                      defaultValue={option.slug}
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />      
+
+
+                    <label
+                      className="ml-3 text-sm text-gray-500"
+                    >
+                      {option.description}
+                    </label>
+                  </Link>
+                  </div>
+                ))}
+              </div>
+            </Disclosure.Panel>
+          </fieldset>
+        )}
+      </Disclosure>
+    ))}
+  </form>
+  )
+}
+
+
+{/*
+<div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5 pb-4">
       <div className="flex flex-shrink-0 items-center px-4">
       </div>
       <div className="mt-5 flex flex-grow flex-col">
@@ -166,5 +188,5 @@ export default function SideNav() {
         </nav>
       </div>
     </div>
-  )
-}
+
+*/}
