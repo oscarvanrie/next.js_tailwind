@@ -3,48 +3,58 @@
 
 
 import { useState, useEffect } from 'react';
-//import SearchBar from './SearchBar.js';
 import Navigation from '@/components/Navigation';
 import SearchBar from '@/components/SearchBar';
-import ShoppingCart from '@/components/ShoppingCart'
-import {useRouter} from 'next/router'
-import fetchSubCategories from '../api/fetchSubCategories';
+import ShoppingCart from '@/components/ShoppingCart';
 import SubMenu from '@/components/subMenu';
+import { useRouter } from 'next/router';
+import { createTemplateLiteral } from '@vue/compiler-core';
+import Product from '@/components/Product';
+import fetchProducts from '../api/fetchProducts';
 
 export default function Category() {
   
-  const router = useRouter()
-  const categorieID = parseInt(router.query.category)
   const [openSearch, setOpenSearch] = useState(false);
   const [openCart, setOpenCart] = useState(false);
+  
+  const router = useRouter();
+  const categorySlug = router.query.products;
+  
+  
+  
 
-  const [subCategories, setsubCategories] = useState([]);
-  const [selectedName, setSelectedName] = useState('');
   
+  const [products, setProducts] = useState([]);
+
+  var arrayData= [];
   
-  
+
 
   useEffect(() => {
+    console.log('nieuw ' + categorySlug);
+    arrayData = [];
     const fetchData = async () => {      
-      try {
-        const response = await fetchSubCategories();
-        const subcategories = response.data[categorieID]?.subcategories;
-        setSelectedName(response.data[categorieID]?.description);
-        if (subcategories) {
-          
-          setsubCategories('');
-          setsubCategories(subcategories);
-        } else {
-          console.log(`Invalid categorieID: ${categorieID}`);
+      const response = await fetchProducts();
+      setProducts(response.data);
+      for (var i = 0; i < response.data.length; i++) {
+        if (response.data[i].subcategory.slug == categorySlug) {
+          console.log(i);
+          arrayData.push(response.data[i]);
         }
-        return response.data;
-      } catch (error) {
-        console.log(error);
       }
+      setProducts(arrayData);
+      console.log(arrayData);
+      return arrayData;
     };
-      
+
+    
     fetchData();
-  }, [categorieID]);
+  }, [categorySlug]);
+
+
+
+
+
 
 
 
@@ -53,11 +63,9 @@ export default function Category() {
   }
   function clickCart() {
     setOpenCart(!openCart);
-    console.log(subCategories);
+    console.log(products);
     
   }
-
-
 
 
   return (
@@ -74,7 +82,12 @@ export default function Category() {
       
       <ShoppingCart open = {openCart} setOpen = {setOpenCart}/>
 
-      <SubMenu subCategorieArray={subCategories} categorieName={selectedName} /> 
+      <p>{categorySlug}</p>
+
+      <Product products={products} />
+
+
+
 
       
        

@@ -2,14 +2,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 import { useState, useEffect } from 'react';
-//import SearchBar from './SearchBar.js';
 import Navigation from '@/components/Navigation';
 import SearchBar from '@/components/SearchBar';
 import ShoppingCart from '@/components/ShoppingCart'
 import Link from 'next/link';
-import Products from '@/components/Products';
 import fetchProducts from './api/fetchProducts';
-//import ShoppingCart from './ShoppingCart';
 import Product from '@/components/Product';
 
 

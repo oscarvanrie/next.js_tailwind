@@ -81,7 +81,6 @@ export default function Navigation({clickSearch, clickCart}) {
           
           setsubCategories('');
           setsubCategories(subcategories);
-          console.log(subcategories);
         } else {
           console.log(`Invalid categorieID: ${categorieID}`);
         }
@@ -96,7 +95,6 @@ export default function Navigation({clickSearch, clickCart}) {
 
   
 
-console.log(categories);
   return (
 
     <div className="bg-white">
@@ -198,6 +196,7 @@ console.log(categories);
             </Transition.Child>
           </div>
         </Dialog>
+
       </Transition.Root> 
 
       <header className="relative z-10">
@@ -317,9 +316,9 @@ console.log(categories);
                                               >
                                                  {sCat.subcategories.map((item) => (
                                                   <li key={item.description} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
+                                                    <Link href={"/products/" + item.slug} className="hover:text-gray-800">
                                                       {item.description}
-                                                    </a>
+                                                    </Link>
                                                   </li>
                                                 ))} 
                                               </ul>

@@ -22,7 +22,10 @@ export default function Category() {
   const [selectedName, setSelectedName] = useState('');
   
   
-  
+  const [products, setProducts] = useState([]);
+
+
+
 
   useEffect(() => {
     const fetchData = async () => {      
@@ -76,7 +79,6 @@ export default function Category() {
 
       <SubMenu subCategorieArray={subCategories} categorieName={selectedName} /> 
 
-      
        
 
       
